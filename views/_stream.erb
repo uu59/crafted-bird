@@ -1,0 +1,5 @@
+<% if tw.stream_type == "dm" %>
+  <%= partial(:_dm, :dm => tw) %>
+<% else %>
+  <%= partial(:_tweet, :tw => tw)%>
+<% end %>

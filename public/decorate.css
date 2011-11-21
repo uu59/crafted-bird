@@ -1,0 +1,36 @@
+body {
+  background: #F3F2EE;
+}
+
+#postform {
+  background: #474747;
+  color: #f9f9f9;
+  border-bottom: 2px solid #333;
+}
+#postform form > p{
+  margin-bottom: 0;
+}
+
+#postform button {
+  vertical-align: text-bottom;
+}
+
+#postform #known_users {
+  display: inline-block;
+}
+#postform #known_users:after {
+  content: "";
+  display: block;
+}
+
+#postform textarea {
+  background: #F3F2EE;
+}
+#postform .reply {
+  color: #fff;
+  float:left;
+}
+
+#loading {
+  color: #ffe;
+}

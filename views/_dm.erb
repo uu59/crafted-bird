@@ -1,0 +1,20 @@
+<li data-name="<%== dm.context_user %>" data-id="<%==dm.id.abs * -1%>">
+  <p class="appendix">
+    <span data-id="<%=dm.id%>" class="delete">Delete</span>
+    <span data-name="<%==dm.sender.screen_name%>" data-user="<%==dm.context_user%>" class="reply-dm">reply</a>
+  </p>
+  <p class="author">
+    <span>
+      <img width="48" height="48"  src="<%==dm.sender.profile_image_url%>" />
+      <a data-name="<%==dm.sender.screen_name%>" class="twitter-user" href="//twitter.com/<%==dm.sender.screen_name%>"><%==dm.sender.screen_name%></a>
+      to
+      <a data-name="<%==dm.recipient.screen_name%>" class="twitter-user" href="//twitter.com/<%==dm.recipient.screen_name%>"><%==dm.recipient.screen_name%></a>
+    </span>
+  </p>
+  <p class="tweet">
+    <%== dm.text %>
+  </p>
+  <p class="foot">
+    <%==dm.created_at%>
+  </p>
+</li>

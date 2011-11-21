@@ -1,0 +1,8 @@
+# -- coding: utf-8
+
+CraftedBird::Timeline.new(
+  "<%=@target%>(<%=@user%>)",
+  CraftedBird::Stream.new(:<%=@user%>) do |client|
+  client.user_timeline(:screen_name => "<%=@target%>")
+  end
+)

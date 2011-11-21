@@ -1,0 +1,151 @@
+<!DOCTYPE html> 
+<html lang="ja"> 
+<head> 
+<title></title> 
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.16/jquery-ui.min.js"></script>
+<link type="text/css" rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.16/jquery-ui.min.js" />
+<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/eggplant/jquery-ui.css" />
+<link type="text/css" rel="stylesheet" href="/style.css" />
+<script src="/util.js"></script>
+<script src="/debug.js"></script>
+<script src="/event.js"></script>
+<script src="/view.js"></script>
+<script src="/sound.js"></script>
+<script src="/view_popup.js"></script>
+<script src="/view_trans_status.js"></script>
+<script src="/view_tabs.js"></script>
+<script src="/view_post.js"></script>
+<script src="/view_tweets.js"></script>
+<script src="/view_tabs_timelines.js"></script>
+<script src="/view_tabs_streams.js"></script>
+<script src="/init.js"></script>
+<script src="/model.js"></script>
+<script src="/model_timeline.js"></script>
+<script src="/model_stream.js"></script>
+</head> 
+<body>
+  <div id="postform">
+    <form id="post" action="">
+      <div id="post-common">
+        <p id="known_users">
+        <% @users.each{|u| %>
+          <img data-user="<%==u%>" width="24" height="24" src="//api.twitter.com/1/users/profile_image?size=mini&screen_name=<%=u%>" alt="<%==u%>" />
+        <% } %>
+        </p>
+        <button id="toggle-input-form">form</button>
+        <button class="reset">reset</button>
+        <div id="volume-slider"></div><span id="volume-value"></span>
+      </div>
+      <!-- <span id="rate-limit"></span> -->
+      <div id="input-form">
+        <p id="input-area">
+          <input type="hidden" name="postuser" value="" />
+          <input type="hidden" name="in_reply_to" value="" />
+          <textarea name="tweet"></textarea>
+          <span id="length">0 / 140</span>
+        </p>
+        <p id="reply-area"></p>
+      </div>
+    </form>
+    <div id="trans-status"></div>
+  </div>
+
+  <div id="tabs">
+    <div id="tabs-wrap">
+      <button class="reload">reload</button>
+      <button id="create-stream-button">create stream</button>
+      <div id="timeline_section">
+        <h2>Timeline<input type="text" name="timeline_label" placeholder="TLを追加" /></h2>
+        <ol id="timelines"></ol>
+      </div>
+      <div id="streams_section">
+        <h2>Stream<input type="text" name="streams_label" placeholder="Search" /></h2>
+        <ol id="streams"></ol>
+      </div>
+    </div>
+  </div>
+
+  <div id="main">
+  </div>
+
+  <div id="popup"></div>
+  <div id="create-form" style="display:none">
+    <form class="create-stream">
+    screen_name: <select name="screen_name">
+      <option value="blank">--blank--</option>
+      <% KNOWN_USERS.each{|u| %>
+        <option value="<%==u.name%>"><%==u.name%></option>
+      <% } %>
+    </select>
+    method: <select name="method">
+      <option value="all">Home, mentions, and DM</option>
+      <option value="dm">DM</option>
+      <option value="home_timeline">home_timeline</option>
+      <option value="user_timeline">user_timeline</option>
+      <option value="mentions">mentions</option>
+      <option value="favorites">favorites</option>
+      <option value="retweeted_by_user">retweeted_by_user</option>
+      <option value="search">search</option>
+    </select>
+    <div id="contextual-fields"></div>
+    <input type="submit" />
+  </form>
+  </div>
+
+  <div id="footer">
+  </div>
+
+  <script>
+    $(function(){
+      View.Tabs.init();
+      var postform_h = $('#postform').height();
+      $('#main').css('padding-top', postform_h+"px");
+      $('#tabs').css('top', postform_h+"px");
+      var tabs_h = window.innerHeight - $('#postform').height();
+      $('#tabs').css({
+        height: tabs_h + "px"
+      });
+      window.setInterval(function(){
+        View.Tabs.check();
+      }, 300 * 1000);
+
+      var update_rate_limit = function(){
+        $.ajax({
+          url: '/users/limits',
+          type: "GET",
+          success: function(limit){
+            $('#known_users img').each(function(i, img){
+              var rate = limit[$(img).attr('data-user')].remaining_hits;
+              $(img).attr('data-rate-limit', rate);
+              $(img).attr('title', "Limit: "+rate + "("+(new Date())+")");
+            });
+          },
+        });
+      }
+      update_rate_limit();
+      window.setInterval(function(){
+        update_rate_limit();
+      }, 30 * 1000);
+
+      if(Sound.isDummy){
+        $('#volume-slider').hide();
+        $('#volume-value').hide();
+      }
+      $('#volume-value').html(Sound.DEFAULT_VOL);
+      $('#volume-slider').slider({
+        value: Sound.DEFAULT_VOL,
+        min: 0.0,
+        max: 1.0,
+        step: 0.1,
+        slide: function(ev, ui){
+          $('#volume-value').html(ui.value);
+        },
+        change: function(ev, ui){
+          Sound.changeVolume(ui.value);
+          Sound.play("sample");
+        }
+      });
+    });
+  </script>
+</body></html> 

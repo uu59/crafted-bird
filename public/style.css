@@ -1,0 +1,362 @@
+html, body {
+  margin:0;
+  padding:0;
+  font-size: small;
+  line-height: 1.4;
+}
+body {
+  margin-bottom: 4em;
+}
+
+#postform {
+  position: fixed;
+  overflow:hidden;
+  z-index: 3;
+  background: white;
+  width:100%;
+  padding:0;
+}
+#postform #post {
+  padding:0 1ex;
+}
+#postform textarea {
+  width: 30em;
+  height:4em;
+}
+#postform #post-common #volume-slider,
+#postform #post-common #volume-value {
+  vertical-align: super;
+}
+
+#postform #post-common #volume-slider {
+  width:100px;
+  display:inline-block;
+  margin-left:1ex;
+}
+#post #known_users img {
+  border: 5px solid transparent;
+  cursor: pointer;
+  opacity: 0.6;
+}
+#post #known_users img.selected {
+  border-color: #f9f;
+  opacity: 1;
+}
+#main {
+  padding-bottom: 150px;
+  padding-right: 22em;
+  padding-left: 2em;
+  overflow: hidden;
+}
+#main #tweets-line {
+  position: absolute;
+  height:0;
+  width:6px;
+  left:0;
+  background:#aaa;
+}
+.tweets .reply-to-me{
+  background: #f3f2ee;
+}
+.tweets .appendix {
+  position:absolute;
+  right:1ex;
+  top:-1em;
+  display:none;
+}
+.tweets li:hover .appendix {
+  display:block;
+}
+.tweets .appendix *{
+  cursor: pointer;
+}
+#main ol,
+#main li {
+  margin:0;
+  padding:0;
+  list-style: none;
+}
+#main ol {
+  margin-left: 52px;
+}
+#main ol ol {
+  margin-top: 1ex;
+}
+#main ol ol ol {
+  /* thread */
+  margin-left: 0;
+}
+.tweets li:hover {
+  background: #ffe;
+}
+.tweets .tweet img {
+  max-width: 100px;
+  display: block;
+}
+.tweets li {
+  position: relative;
+  margin-bottom:1ex;
+  min-height:52px;
+}
+.tweets .author {
+  margin:0;
+  padding:0;
+}
+.tweets .author img.private {
+  vertical-align: text-bottom;
+}
+.tweets .author span > img {
+  position: absolute;
+  left: -52px;
+}
+.tweets .tweet {
+  z-index:3;
+  display:inline-block;
+  margin:0;
+  padding:2px 0;
+}
+.tweets .tweet .rt-timestamp {
+  color: #606060;
+  padding-left: 1ex;
+}
+.tweets .tweet .author *{
+  vertical-align: top;
+}
+.tweets .foot {
+  font-size: x-small;
+  margin:0;
+  padding:0;
+}
+.tweets .foot a.permalink {
+  color:#555;
+}
+.tweets .foot a[rel="nofollow"] {
+  /* source */
+  color: #808080;
+}
+#tabs {
+  width: 20em;
+  right: 0;
+  padding:1ex 0;
+  direction: rtl;
+  position: fixed;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+#tabs #tabs-wrap {
+  direction: ltr;
+}
+#tabs h2 {
+  font-size:small;
+}
+#tabs ol {
+  margin:0;
+  padding:0;
+  list-style: none;
+}
+#tabs li {
+  margin:0 0 3px 0;
+  padding:0;
+  line-height: 1.2;
+  font-weight: normal;
+  display:block;
+  cursor: pointer;
+}
+#tabs li:hover,
+#tabs .selected {
+  background: lightgray;
+}
+#tabs li .edit {
+  font-size: medium;
+  padding:2px;
+}
+#tabs li .edit:hover {
+  color: red;
+}
+#tabs li .delete {
+  padding:0 4px;
+  display:none;
+}
+#tabs li:hover .delete {
+  display:inline;
+  float:left;
+}
+#tabs .delete:hover {
+  color:red;
+}
+#tabs ol#timelines li ol {
+  margin-left:1em;
+  width: 100%;
+  display: none;
+}
+#tabs ol#timelines li.droppable-active ol,
+#tabs ol#timelines li:hover ol {
+  display: block;
+}
+#tabs li.updated:before {
+  content: "*";
+  color:red;
+}
+#footer {
+  position:fixed;
+  bottom:0;
+  background: #fff;
+  width:100%;
+}
+
+.droppable-active {
+  background: #F3F2EE;
+}
+.droppable-hover {
+  background: #FFE;
+}
+
+#popup {
+  background: #F3F2EE;
+  border: 4px solid #333;
+  -webkit-border-radius: 4px;
+  padding: 1em;
+  width:60%;
+  height:60%;
+  overflow:auto;
+  position:fixed;
+  top: 20%;
+  left: 20%;
+  display:none;
+  z-index: 999;
+}
+#popup .close {
+  position:absolute;
+  top:1ex;
+  right:1ex;
+  color: #000;
+  cursor: pointer;
+  font-size: 15pt;
+}
+
+.twitter-user {
+  color: #113;
+}
+
+body, textarea {
+  background: #ECEADF;
+  color: #000;
+}
+
+#postform {
+  background: #474747;
+  color: #f9f9f9;
+  border-bottom: 2px solid #333;
+}
+
+#postform button {
+  vertical-align: text-bottom;
+}
+
+#postform #known_users {
+  display: inline-block;
+  margin-bottom:0;
+}
+#postform #known_users:after {
+  content: "";
+  display: block;
+}
+
+#postform #input-form {
+  margin:0;
+}
+#postform #input-form:after {
+  content: "";
+  height:0;
+  display: block;
+  clear:both;
+  display:block;
+}
+#postform #input-form #input-area{
+  float:left;
+  width:48%;
+  margin:0;
+  padding:0;
+}
+#postform #input-form #reply-area{
+  float:right;
+  width: 48%;
+  color: #fff;
+  margin:0;
+  padding:0;
+}
+
+#postform textarea {
+  background: #F3F2EE;
+}
+#postform .reply {
+  float:left;
+}
+
+#loading {
+  color: #ffe;
+}
+
+a {
+  color: #065588;
+}
+a:visited {
+  color: #1F0909;
+}
+
+#trans-status {
+  min-height:2.2em;
+}
+#trans-status .failed {
+  color: #f99;
+}
+#trans-status ol,
+#trans-status ol li {
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+#trans-status ol {
+  overflow:hidden;
+  width: 90%;
+  height: 1.3em;
+}
+#trans-status ol li {
+  display: inline;
+  padding:0 1ex;
+}
+
+.ui-widget-header,
+.ui-widget-content{
+  background: #545454;
+}
+
+#timeline-setting ul  {
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+#timeline-setting strong {
+  font-weight:normal;
+}
+
+#userinfo #user img {
+  float:left;
+  padding-right: 1ex;
+}
+#userinfo #user:after {
+  content: " ";
+  height:0;
+  display:block;
+  clear:both;
+  overflow:hidden;
+}
+#userinfo .appendix {
+  margin: 1em 0;
+  padding:0;
+}
+#userinfo .tweets {
+  margin-top: 1em;
+  clear:both;
+  margin-left: 12px;
+}

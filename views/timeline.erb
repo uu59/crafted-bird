@@ -1,0 +1,14 @@
+<ul id="timeline-streams">
+  <% @streams.each{|st| %>
+    <li>
+      <%==st.label%>
+    </li>
+  <% } %>
+</ul>
+
+<div id="tweets-line"></div>
+<ol id="tweets" class="tweets">
+<% @timeline.each{|tw| %>
+  <%= partial(:_stream, :tw => tw)%>
+<% } %>
+</ol>
