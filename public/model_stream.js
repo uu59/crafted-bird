@@ -37,7 +37,10 @@ Stream.prototype.element = function(){
 
 Stream.prototype.dry_load = function(){
   if(this.dryloading){
-    this.dryloading.abort();
+    if(!!this.dryloading.abort){
+      this.dryloading.abort();
+    }
+    this.dryloading.reject();
     console.log("duplicating dry load: " + this.label);
     return ;
   }
