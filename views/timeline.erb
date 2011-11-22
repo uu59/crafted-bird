@@ -6,7 +6,6 @@
   <% } %>
 </ul>
 
-<div id="tweets-line"></div>
 <ol id="tweets" class="tweets">
 <% @timeline.each{|tw| %>
   <%= partial(:_stream, :tw => tw)%>

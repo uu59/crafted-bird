@@ -48,7 +48,7 @@ body {
   padding-left: 2em;
   overflow: hidden;
 }
-#main #tweets-line {
+#tweets-line {
   position: absolute;
   height:0;
   width:6px;
