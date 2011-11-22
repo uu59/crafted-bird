@@ -1,5 +1,9 @@
 // emulate <a target="_blank">
 $(document).delegate('a[href]', 'click', function(ev){
+  if($(this).attr('data-name')){
+    return ;
+  }
+  $(this).attr('target', '_blank');
   ev.preventDefault();
   click_link(this);
 });
