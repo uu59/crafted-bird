@@ -141,13 +141,11 @@ body {
   width: 20em;
   right: 0;
   padding:1ex 0;
-  direction: rtl;
   position: fixed;
   overflow-x: hidden;
   overflow-y: auto;
 }
 #tabs #tabs-wrap {
-  direction: ltr;
 }
 #tabs h2 {
   font-size:small;
