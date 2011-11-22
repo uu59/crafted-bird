@@ -1,0 +1,10 @@
+
+    <img src="<%==@info.profile_image_url%>" width="64" height="64" />
+    <a class="twitter-user" href="//twitter.com/<%==@info.screen_name%>" data-name="<%==@info.screen_name%>"><%==@info.screen_name%></a>
+    <% if @info.url %>
+      <a href="<%==@info.url%>"><%==@info.url%></a>
+    <% end %>
+    <p>
+      <%= nl2br(@info.description) %>
+    </p>
+  

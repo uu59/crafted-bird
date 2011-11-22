@@ -10,7 +10,7 @@
     <p class="author">
       <span>
         <img width="48" height="48" src="<%==tw.retweeted_status.user.profile_image_url || tw.profile_image_url%>" />
-      <img width="24" height="24" style="position:relative; left:-28px; top:22px; margin-right:-24px;" src="<%=tw.user.profile_image_url || tw.profile_image_url%>" />
+      <img width="24" height="24" style="position:absolute; left:-28px; top:22px; margin-right:-24px;" src="<%=tw.user.profile_image_url || tw.profile_image_url%>" />
     </span>
     <span><a data-name="<%==tw.retweeted_status.user.screen_name%>" 
         class="twitter-user" href="//twitter.com/<%= tw.retweeted_status.user.screen_name %>">

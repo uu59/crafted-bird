@@ -1,22 +1,9 @@
-<div id="userinfo" data-context="<%==@context%>" data-name="<%==@info.screen_name%>">
-  <div id="user">
-    <img src="<%==@info.profile_image_url%>" width="64" height="64" />
-    <a class="twitter-user" href="//twitter.com/<%==@info.screen_name%>" data-name="<%==@info.screen_name%>"><%==@info.screen_name%></a>
-    <% if @info.url %>
-      <a href="<%==@info.url%>"><%==@info.url%></a>
-    <% end %>
-    <p>
-      <%= nl2br(@info.description) %>
-    </p>
-  </div>
+<div id="userinfo" data-context="<%==@context%>" data-name="<%==@screen_name%>">
+  <div id="user"></div>
 
   <div class="appendix">
     <button class="create-user-stream">create stream</button>
   </div>
 
-  <ol class="tweets">
-  <% @tweets.each{|tw| %>
-    <%= partial(:_tweet, :tw => tw) %>
-  <% } %>
-  </ol>
+  <ol class="tweets"></ol>
 </div>

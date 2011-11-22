@@ -30,7 +30,9 @@ View.Popup = (function(){
   function hide(){
     elm.hide();
     $(document).undelegate('', 'click', outerClickHandler);
+    $(document).undelegate('.appendix .create-user-stream', 'click', Popup.UserInfo.createStreamHandler);
   }
+
 
   var Popup = {
     hide: function(){
@@ -48,15 +50,30 @@ View.Popup = (function(){
       },
 
       show: function(a){
-        $(document).undelegate('.appendix .create-user-stream', 'click', Popup.UserInfo.createStreamHandler);
         $(document).delegate('.appendix .create-user-stream', 'click', Popup.UserInfo.createStreamHandler);
         show();
         var a = $(a);
+        var context = a.closest('*[data-context]').attr('data-context');
+        var target = a.attr('data-name');
         var d = $.ajax({
           type: "GET",
-          url: "/userinfo/"+a.closest('*[data-context]').attr('data-context')+"/"+a.attr('data-name')
+          url: "/userinfo/"+context+"/"+target
         }).done(function(res){
           elm.html(res);
+          var d_info = $.ajax({
+            type: "GET",
+            url: "/userinfo/"+context+'/'+target+'/info'
+          }).done(function(res){
+            $('#user', elm).html(res);
+          });
+          var d_stream = $.ajax({
+            type: "GET",
+            url: "/userinfo/"+context+"/"+target+"/stream"
+          }).done(function(res){
+            $('.tweets', elm).html(res);
+          });
+          View.loadingIcon(d_info).appendTo('#user');
+          View.loadingIcon(d_stream).appendTo('.tweets');
           show();
         }).fail(function(){
           hide();
