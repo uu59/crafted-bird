@@ -70,21 +70,7 @@ View.Post = (function(){
       var h = form.height();
       var ph = $("#postform").height();
       form.hide();
-      $.when(
-        $('#postform').css({
-          "height": ph-h
-        }),
-
-        $('#tabs').css({
-          top: (ph - h),
-          height: $('#tabs').height() + h,
-          overflow: "scroll"
-        }),
-
-        $('#main').css({
-          paddingTop: (ph - h)
-        })
-      );
+      View.adjustHeight();
     },
 
     open: function(){
@@ -93,21 +79,7 @@ View.Post = (function(){
       }
       var ph = $("#postform").height();
       form.show();
-      var h = form.height();
-      return $.when(
-        $('#postform').css({
-          height: (ph + h)
-        }),
-
-        $('#tabs').css({
-          top: (ph + h),
-          height: $('#tabs').height() - h
-        }),
-
-        $('#main').css({
-          paddingTop: (ph + h)
-        })
-      );
+      View.adjustHeight();
     },
 
     toggle: function(){

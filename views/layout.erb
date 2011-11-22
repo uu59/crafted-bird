@@ -99,14 +99,8 @@
 
   <script>
     $(function(){
+      View.adjustHeight();
       View.Tabs.init();
-      var postform_h = $('#postform').height();
-      $('#main').css('padding-top', postform_h+"px");
-      $('#tabs').css('top', postform_h+"px");
-      var tabs_h = window.innerHeight - $('#postform').height();
-      $('#tabs').css({
-        height: tabs_h + "px"
-      });
       window.setInterval(function(){
         View.Tabs.check();
       }, 300 * 1000);

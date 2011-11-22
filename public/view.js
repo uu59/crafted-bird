@@ -9,6 +9,18 @@ var View = (function(){
         img.remove();
       });
       return img; 
+    },
+
+    adjustHeight: function(){
+      var postform_h = $('#postform').height();
+      $('#main').css('padding-top', postform_h+"px");
+      $('#tabs').css('top', postform_h+"px");
+      $('#tweets-line').css({"top": postform_h + "px" });
+
+      var tabs_h = window.innerHeight - $('#postform').height();
+      $('#tabs').css({
+        height: tabs_h + "px"
+      });
     }
   };
 
