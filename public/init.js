@@ -5,8 +5,6 @@ $(document).delegate('a[href]', 'click', function(ev){
 });
 
 $(document).delegate(".thread", "click", function(ev){
-  ev.preventDefault();
-  ev.stopPropagation();
   load_thread(this);
 });
 

@@ -20,6 +20,7 @@
     </span>
   <% if tw.retweeted_status.in_reply_to_status_id %>
     <span class="tweet-status thread"
+      data-id="<%=tw.retweeted_status.in_reply_to_status_id%>"
       >reply to <%=tw.retweeted_status.in_reply_to_screen_name%></span>
   <% end %>
     </p>
@@ -35,6 +36,7 @@
   </span>
   <% if tw.in_reply_to_status_id %>
     <span class="tweet-status thread"
+      data-id="<%=tw.in_reply_to_status_id%>"
       >reply to <%=tw.in_reply_to_screen_name%></span>
   <% end %>
     </p>
