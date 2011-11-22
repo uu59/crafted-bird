@@ -7,6 +7,7 @@ View.Tweets = (function(){
     getCurrent: function(){ return current; },
     setCurrentTweet: function(li) {
       bookmark[current.id] = li;
+      $(current.element()).attr('data-bookmark-id', $(li).attr('data-id'));
     },
     getCurrentTweet: function(){
       return bookmark[current.id];

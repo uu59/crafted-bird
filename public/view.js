@@ -15,11 +15,9 @@ var View = (function(){
   Event.trap('timeline.tweets.fetched', function(ev){
     var tl = ev.data.model;
     var elm = $(tl.element());
-    if(!elm.attr('data-bookmark-id')){
-      elm.attr('data-bookmark-id', ev.data.old_max);
-    }
 
     if(compare_big_number_string(ev.data.old_max, ev.data.new_max) == -1){
+      elm.attr('data-bookmark-id', elm.attr('data-bookmark-id') || tl.max_id);
       tl.max_id = ev.data.new_max;
       if(View.Tweets.getCurrent() == tl){
         tl.activate();

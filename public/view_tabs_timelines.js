@@ -11,6 +11,7 @@ View.Tabs.Timelines = (function(){
           var tl = new Timeline(timeline.id);
           tl.label = timeline.label;
           tl.max_id = timeline.max_id;
+          $(tl.element()).attr('data-bookmark-id', tl.max_id);
           tl.streams = [];
           $.each(timeline.streams, function(i, st){
             var stream = new Stream(st.id);
