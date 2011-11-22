@@ -92,7 +92,7 @@ post "/timeline/create" do
   tl = ::Timeline.new(:label => label)
   halt(400, tl.errors.full_messages.to_json) unless tl.valid?
   tl.save
-  halt(200, tl[:id])
+  halt(200, tl[:id].to_s)
 end
 
 get "/timelines/:id" do

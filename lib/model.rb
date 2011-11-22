@@ -15,7 +15,7 @@ class Timeline < Sequel::Model
 
   def validate
     super
-    errors.add(:label, 'should be unique') if self.class[:label => label]
+    errors.add(:label, 'should be unique') if !self.id && self.class[:label => label]
   end
 
   many_to_many :streams
