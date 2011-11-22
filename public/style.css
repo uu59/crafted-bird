@@ -70,20 +70,21 @@ body {
 .tweets .appendix *{
   cursor: pointer;
 }
-#main ol,
-#main li {
+.tweets,
+.tweets ol,
+.tweets li {
   margin:0;
   padding:0;
   list-style: none;
 }
-#main ol {
+.tweets,
+.tweets .reply-thread {
   margin-left: 52px;
 }
-#main ol ol {
+.tweets li{
   margin-top: 1ex;
 }
-#main ol ol ol {
-  /* thread */
+.tweets .reply-thread ol {
   margin-left: 0;
 }
 .tweets li:hover {
@@ -358,5 +359,4 @@ a:visited {
 #userinfo .tweets {
   margin-top: 1em;
   clear:both;
-  margin-left: 12px;
 }
