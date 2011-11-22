@@ -128,10 +128,10 @@ $(document).delegate('a.twitter-user', 'click', function(ev){
 
 $(document).delegate('.tweets a[data-hashtag]', 'click', function(ev){
   ev.preventDefault();
-  var li = $(this).closest('li[data-name]');
+  var li = $(this).closest('li[data-context]');
 
   Stream.create({
-    screen_name: $(li).attr("data-name"),
+    screen_name: $(li).attr("data-context"),
     method: "search",
     args: {"q": $(this).attr('data-hashtag')}
   });

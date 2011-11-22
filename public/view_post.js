@@ -136,7 +136,7 @@ View.Post = (function(){
     }
     var li = ev.data.closest('li[data-id]');
     var id = li.attr('data-id');
-    var user = li.attr('data-name');
+    var user = li.attr('data-context');
     Sound.play("deletePost");
     var d = $.ajax({
       type: "DELETE",
@@ -151,7 +151,7 @@ View.Post = (function(){
     var self = ev.data;
     $('#post img[data-user="'+self.attr('data-user')+'"]').trigger('click');
     $('#post textarea').val("d "+self.attr('data-name')+" ");
-    ViewPost.selectSingleUser(self.closest('li[data-name]').attr('data-name'));
+    ViewPost.selectSingleUser(self.closest('li[data-context]').attr('data-context'));
     ViewPost.open();
     var tx = $('#post textarea')[0];
     var posEnd = tx.value.length;
@@ -168,7 +168,7 @@ View.Post = (function(){
       $('#tweets li[data-id="'+id+'"] p.tweet').text(),
     ].join(": ");
     $('#post #reply-area').html(to);
-    ViewPost.selectSingleUser($(ev.data).closest('li[data-name]').attr('data-name'));
+    ViewPost.selectSingleUser($(ev.data).closest('*[data-context]').attr('data-context'));
     ViewPost.open();
     var tx = $('#post textarea')[0];
     var posEnd = tx.value.length;

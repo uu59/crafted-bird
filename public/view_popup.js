@@ -45,7 +45,7 @@ View.Popup = (function(){
         Stream.create({
           screen_name: li.attr("data-context"),
           method: "user_timeline",
-          args: {"screen_name": li.attr("data-name")}
+          args: {"screen_name": li.attr("data-context")}
         });
       },
 
