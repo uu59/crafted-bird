@@ -1,11 +1,19 @@
+// emulate <a target="_blank">
+$(document).delegate('a[href]', 'click', function(ev){
+  ev.preventDefault();
+  click_link(this);
+});
+
+$(document).delegate(".thread", "click", function(ev){
+  ev.preventDefault();
+  ev.stopPropagation();
+  load_thread(this);
+});
+
+
 $(document).delegate('#postform #toggle-input-form', 'click', function(ev){
   ev.preventDefault();
   View.Post.toggle();
-});
-
-$(document).on("click", "a.thread", function(ev){
-  ev.preventDefault();
-  load_thread(this);
 });
 
 $(document).delegate('#tabs .reload', 'click', function(){
@@ -169,20 +177,6 @@ $(document).delegate('#post', 'submit', function(ev){
 
 $(document).delegate('#post #known_users img', 'click', function(){
   Event.fire('post.userimg.click', this);
-});
-
-// emulate <a target="_blank">
-$(document).delegate('#tweets a.permalink', 'click', function(ev){
-  ev.preventDefault();
-  click_link(this);
-});
-
-$(document).delegate('#tweets p.tweet a', 'click', function(ev){
-  ev.preventDefault();
-  if(this.className != ""){
-    return ;
-  }
-  click_link(this);
 });
 
 // create Stream

@@ -25,23 +25,22 @@ function click_link(a){
   window.open(a.href);
 }
 
-function load_thread(a) {
-  var a = $(a);
-  var li = a.closest('li[data-id]');
-  var reply = $('.reply-thread[data-id="'+a.attr("data-id")+'"]', li);
+function load_thread(src) {
+  var li = $(src).closest('*[data-id][data-context]');
+  var reply = $('.reply-thread[data-id="'+li.attr("data-id")+'"]', li);
   if(reply.length > 0){
     reply.toggle();
     return ;
   }
-  var content = $('<ol class="reply-thread" data-id="'+a.attr('data-id')+'">loading..</ol>');
+  var content = $('<ol class="reply-thread" data-id="'+li.attr('data-id')+'">loading..</ol>');
   li.append(content);
   $.ajax({
     type: "GET",
-    url: "/thread/"+a.attr("data-context")+"/"+a.attr("data-id"),
+    url: "/thread/"+li.attr("data-context")+"/"+li.attr("data-id"),
     complete: function(res){
       content.html(res.responseText);
       if(res.responseText.indexOf(' thread"') > -1){
-        var aa = $('ol[data-id="'+a.attr("data-id")+'"] .tweet-status.thread');
+        var aa = $('ol[data-id="'+li.attr("data-id")+'"] .tweet-status.thread');
         load_thread(aa[0]);
       }
     }

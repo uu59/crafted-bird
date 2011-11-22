@@ -81,9 +81,6 @@ body {
 .tweets .reply-thread {
   margin-left: 52px;
 }
-.tweets li{
-  margin-top: 1ex;
-}
 .tweets .reply-thread ol {
   margin-left: 0;
 }
@@ -95,6 +92,7 @@ body {
   display: block;
 }
 .tweets li {
+  margin-top: 1ex;
   position: relative;
   margin-bottom:1ex;
   min-height:52px;
@@ -122,6 +120,10 @@ body {
 }
 .tweets .tweet .author *{
   vertical-align: top;
+}
+.tweets .thread {
+  cursor: pointer;
+  text-decoration: underline;
 }
 .tweets .foot {
   font-size: x-small;
