@@ -53,7 +53,7 @@ View.Tabs = (function(){
         $.each(tl.streams, function(i, st){
           setTimeout(function(){
             st.dry_load();
-          }, ++pad * 600);
+          }, ++pad * 1400);
         });
       });
     }
