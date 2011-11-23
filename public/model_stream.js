@@ -18,7 +18,8 @@ Stream.create = function(query){
   var d = $.ajax({
     url: "/stream/create",
     data: query ,
-    type: "POST"
+    type: "POST",
+    timeout: 10 * 1000
   }).done(function(id){
     if(id.match(/^[0-9]+$/)){
       View.Tabs.init();
@@ -37,8 +38,8 @@ Stream.prototype.element = function(){
 
 Stream.prototype.dry_load = function(){
   if(this.dryloading){
+    this.dryloading.reject();
     console.log("duplicating dry load: " + this.label);
-    return ;
   }
   var self = this;
   var d = this.fetch({"force": true}).always(function(){
