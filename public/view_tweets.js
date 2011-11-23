@@ -38,6 +38,10 @@ View.Tweets = (function(){
 
   Event.trap('view.tweets.change', function(ev){
     ev.data.d.done(function(html, type, d){
+      var same = false;
+      if(Tweets.getCurrent() == ev.data.model){
+        same = true;
+      }
       Tweets.setCurrent(ev.data.model);
       ev.data.model.element().removeClass('updated');
       $('#main').html(html).promise().done(function(){
@@ -57,7 +61,9 @@ View.Tweets = (function(){
             var to = $('#tweets').height();
           }
         }
-        window.scroll(0, to);
+        if(!same){
+          window.scroll(0, to);
+        }
         $('#tweets-line').height(to);
       });
     });
