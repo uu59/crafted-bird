@@ -24,37 +24,6 @@ var View = (function(){
     }
   };
 
-  Event.trap('timeline.tweets.fetched', function(ev){
-    var tl = ev.data.model;
-    var elm = $(tl.element());
-
-    if(compare_big_number_string(ev.data.old_max, ev.data.new_max) == -1){
-      elm.attr('data-bookmark-id', elm.attr('data-bookmark-id') || tl.max_id);
-      tl.max_id = ev.data.new_max;
-      if(View.Tweets.getCurrent() == tl){
-        tl.activate();
-      }else{
-        $(tl.element()).addClass('updated');
-      }
-    }
-  });
-
-  Event.trap('stream.tweets.fetched', function(ev){
-    var stream = ev.data.model;
-    var elm = $(stream.element());
-    elm.addClass('updated');
-    if(!elm.attr('data-bookmark-id')){
-      elm.attr('data-bookmark-id', ev.data.old_max);
-    }
-    $.each(stream.timelines, function(i, tl){
-      Event.fire('timeline.tweets.fetched', {
-        model: tl,
-        old_max: tl.max_id,
-        new_max: ev.data.new_max
-      });
-    });
-  });
-
   Event.trap('tabs.click', function(ev){
     var origEv = ev.data.origEv;
     var target = ev.data.target;
