@@ -23,14 +23,20 @@ Model.prototype.fetch = function(args, callback){
   if(!this.id){
     return $.Deferred();
   }
-  return $.ajax({
+  var ajax = $.ajax({
     type: "GET",
     data: args || {},
-    url: this.url("fetch"),
-    beforeSend: self.createCallback("fetch-start", callback.beforeSend),
-    complete: self.createCallback("fetch-complete", callback.complete),
-    success: self.createCallback("fetch-success", callback.success),
-    error: self.createCallback('fetch-error', callback.error)
+    url: this.url("fetch")
+  });
+  return ajax.progress(function(msg){
+    switch(msg){
+      case "abort":
+        ajax.abort();
+        ajax = null;
+        break;
+      default:
+        console.log(arguments);
+    }
   }).done(function(html, ajaxtype, d){
     // ajaxtype = success, error, etc
     var ret_max = d.getResponseHeader("X-Max-Id");
