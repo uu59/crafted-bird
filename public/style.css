@@ -196,7 +196,7 @@ body {
 #tabs .delete:hover {
   color:red;
 }
-#tabs ol#timelines img[data-counter] + img[data-counter]{
+#tabs ol#timelines img.loading + img.loading{
   /* Timeline loading icon appear at most one */
   display:none;
 }

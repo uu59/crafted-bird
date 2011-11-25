@@ -4,7 +4,7 @@ var View = (function(){
   var View = {
     loadingIcon: function(d){
       ++loadingIconCounter;
-      var img = $('<img data-counter="'+loadingIconCounter+'" src="/images/loading.gif" />');
+      var img = $('<img class="loading" data-counter="'+loadingIconCounter+'" src="/images/loading.gif" />');
       d.promise().always(function(){
         img.remove();
       });
