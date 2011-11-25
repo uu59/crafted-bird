@@ -38,19 +38,20 @@ View.Tweets = (function(){
 
   Event.trap('view.tweets.change', function(ev){
     ev.data.d.done(function(html, type, d){
+      var model = ev.data.model;
       var same = false;
-      if(Tweets.getCurrent() == ev.data.model){
+      if(Tweets.getCurrent() == model){
         same = true;
       }
-      Tweets.setCurrent(ev.data.model);
-      ev.data.model.element().removeClass('updated');
+      Tweets.setCurrent(model);
+      model.element().removeClass('updated');
       $('#main').html(html).promise().done(function(){
         var id = Tweets.getCurrentTweet();
         var pad = $('#tweets').offset().top;
         if(id && $("#tweets li[data-id="+id+"]").length > 0){
           var to = $("#tweets li[data-id="+id+"]").offset().top - pad;
         }else{
-          var maxid = $(ev.data.model.element()).attr('data-bookmark-id') || ev.data.model.max_id;
+          var maxid = $(model.element()).attr('data-bookmark-id') || model.max_id;
           if(maxid) {
             try {
               var to = $('#tweets li[data-id="'+maxid+'"]').offset().top - pad;

@@ -16,6 +16,7 @@ View.Tabs.Timelines = (function(){
             var stream = new Stream(st.id);
             stream.label = st.label;
             stream.timelines.push(tl);
+            stream.timelines = $.unique(stream.timelines);
             tl.streams.push(stream);
           });
           tl.streams = $.unique(tl.streams);

@@ -12,10 +12,10 @@
         <img width="48" height="48" src="<%==tw.retweeted_status.user.profile_image_url || tw.profile_image_url%>" />
       <img width="24" height="24" style="position:absolute; left:-28px; top:22px; margin-right:-24px;" src="<%=tw.user.profile_image_url || tw.profile_image_url%>" />
     </span>
-    <span><a data-name="<%==tw.retweeted_status.user.screen_name%>" 
+    <span><img src="/images/rt.png" width="16" height="16" style="position:static"/><a data-name="<%==tw.retweeted_status.user.screen_name%>" 
         class="twitter-user" href="//twitter.com/<%= tw.retweeted_status.user.screen_name %>">
-        <%= tw.retweeted_status.user.screen_name %></a><img src="/images/rt.png" width="16" height="16" /> retweeted by
-      <a data-name="<%==tw.user.screen_name%>" class="twitter-user" href="//twitter.com/<%= tw.user.screen_name %>"
+        <%= tw.retweeted_status.user.screen_name %></a>
+      by <a data-name="<%==tw.user.screen_name%>" class="twitter-user" href="//twitter.com/<%= tw.user.screen_name %>"
         ><%=protected_user(tw.user.protected)%><%= tw.user.screen_name %></a>
     </span>
   <% if tw.retweeted_status.in_reply_to_status_id %>
@@ -25,7 +25,7 @@
   <% end %>
     </p>
     <p class="tweet">
-    <%=nl2br tw.retweeted_status.text %><small class="rt-timestamp">(<%==tw.retweeted_status.created_at%>)</small>
+    <%=nl2br tw.retweeted_status.text %>
     </p>
  <% else %>
     <p class="author">
@@ -45,6 +45,9 @@
     </p>
  <% end %>
     <p class="foot">
+      <% if tw.retweeted_status %>
+        <small class="rt-timestamp">(<%==tw.retweeted_status.created_at%>)</small>
+      <% end %>
       <a class="permalink" href="//twitter.com/<%=tw.user.screen_name%>/statuses/<%=tw.id%>"><%=tw.created_at%></a>
       <%=tw.source%>
     </p>

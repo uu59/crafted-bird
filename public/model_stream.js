@@ -5,10 +5,9 @@ function Stream(id){
   this.eventType = "stream";
   this.id = id;
   this.max_id = "0";
-  var self = this;
   this.timelines = [];
-  Stream.instances[this.id] = this;
   this.dryloading = null;
+  Stream.instances[this.id] = this;
 }
 
 $.extend(Stream.prototype, Model.prototype);
@@ -47,7 +46,10 @@ Stream.prototype.dry_load = function(){
     self.dryloading = null;
   });
   this.dryloading = d;
-  View.TransStatus.add('check '+this.url('fetch'), d);
+  View.loadingIcon(d).prependTo(this.element());
+  this.timelines.forEach(function(tl){
+    View.loadingIcon(d).prependTo(tl.element());
+  });
   return d;
 }
 

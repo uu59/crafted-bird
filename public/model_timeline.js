@@ -4,7 +4,7 @@ function Timeline(id){
   }
   this.eventType = "timeline";
   this.id = id;
-  this.max_id = 0;
+  this.max_id = "0";
   this.streams = [];
   Timeline.instances[this.id] = this;
 }

@@ -112,7 +112,7 @@ body {
   z-index:3;
   display:inline-block;
   margin:0;
-  padding:2px 0;
+  padding:1ex 0 0 0;
 }
 .tweets .tweet .rt-timestamp {
   color: #606060;
@@ -129,6 +129,17 @@ body {
   font-size: x-small;
   margin:0;
   padding:0;
+  text-align: right;
+  visibility:hidden;
+}
+.tweets .foot > * {
+  padding:0 1ex;
+}
+.tweets *:hover .foot {
+  visibility:visible;
+}
+.tweets .rt-timestamp {
+  color: #606060;
 }
 .tweets .foot a.permalink {
   color:#555;
@@ -185,6 +196,10 @@ body {
 #tabs .delete:hover {
   color:red;
 }
+#tabs ol#timelines img[data-counter] + img[data-counter]{
+  /* Timeline loading icon appear at most one */
+  display:none;
+}
 #tabs ol#timelines li ol {
   margin-left:1em;
   width: 100%;
@@ -237,8 +252,11 @@ body {
   font-size: 15pt;
 }
 
-.twitter-user {
-  color: #113;
+.tweets .author .twitter-user {
+  color: #505050;
+}
+.tweets a {
+  color: inherit;
 }
 
 body, textarea {
