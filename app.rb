@@ -66,7 +66,7 @@ get "/users/limits" do
       params[:user] => CraftedBird.client(params[:user].to_sym).rate_limit_status
     }.to_json
   else
-    Parallel.map(KNOWN_USERS, :in_processes => 4){|u|
+    Parallel.map(KNOWN_USERS, :in_threads => 4){|u|
       {
         u.name => CraftedBird.client(u.name).rate_limit_status
       }

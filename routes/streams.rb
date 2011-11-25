@@ -24,8 +24,9 @@ get "/streams/:id" do
   end
   @timeline = st.fetch(:force => params[:force] == "true")
   @streams = [st]
+  @label = st.label
   headers(
-    "X-Max-Id" => @timeline.map(&:id).max.to_s,
+    "X-Max-Id" => @timeline.map{|tl| tl.id.to_i.abs}.max.to_s,
     "X-New-Tweets-Count" => @timeline.find_all{|tw| tw.id > params[:max_id].to_i}.length.to_s,
   )
   erb :timeline, :layout => false
@@ -33,7 +34,8 @@ end
 
 delete "/streams/:id" do
   stream = ::Stream[params[:id]]
-  stream.destroy if stream
+  stream.timelines.each{|tl| tl.remove_stream(stream)}
+  stream.destroy
   halt(204)
 end
 
