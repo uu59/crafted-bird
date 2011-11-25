@@ -26,7 +26,8 @@ Model.prototype.fetch = function(args, callback){
   var ajax = $.ajax({
     type: "GET",
     data: args || {},
-    url: this.url("fetch")
+    url: this.url("fetch"),
+    timeout: 10 * 1000
   });
   return ajax.progress(function(msg){
     switch(msg){
