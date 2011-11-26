@@ -45,7 +45,7 @@ module CraftedBird
     def favorites(*args)
       args = normalize(*args)
       id = args.delete(:id)
-      @client.__send__(:get, "/favorites.json?id=#{id}&include_entities=true")
+      @client.__send__(:get, "/favorites.json?count=200&id=#{id}&include_entities=true")
     end
 
     def userinfo(*args)

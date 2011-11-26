@@ -29,7 +29,7 @@ module CraftedBird
       streams.map{|st|
         st.fetch(force)
       }.flatten.
-        sort_by{|tw| tw.created_at}.reverse.uniq
+        sort_by{|tw| tw.created_at}.reverse.uniq.take(300)
     end
   end
 end
