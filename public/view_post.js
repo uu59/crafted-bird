@@ -44,6 +44,7 @@ View.Post = (function(){
         var d = $.ajax({
           type: "POST",
           url: "/post/"+user+"/tweet",
+          cache: false,
           data: {
             "tweet": tx.value,
             "reply_to": $('input[name="in_reply_to"]').val()
@@ -161,7 +162,7 @@ View.Post = (function(){
 
   Event.trap('post.reply.click', function(ev){
     var id = ev.data.attr('data-id');
-    $('#post textarea').val("@"+ev.data.data("name") + " ");
+    $('#post textarea').val("@"+ev.data.attr("data-name") + " ");
     $('input[name="in_reply_to"]').val(id);
     var to = [
       "@"+$('#tweets li[data-id="'+id+'"] p.appendix span:last-child').attr("data-name"),

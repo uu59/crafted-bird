@@ -1,5 +1,29 @@
 View.Tabs = (function(){
 
+  $(function(){
+    $('#tabs #streams > li').draggable({
+      revert: "invalid",
+      helper: "clone",
+    });
+
+    $('#tabs #timelines').sortable({
+      "axis": "y",
+      "item": "li[data-id]",
+      "update": Timeline.saveOrder
+    });
+
+    $('#tabs #timelines > li').droppable({
+      accept: $('#streams > li'),
+      activeClass: "droppable-active",
+      hoverClass: "droppable-hover",
+      drop: function(ev, ui){
+        var tl = new Timeline($(this).attr('data-id'));
+        var st = new Stream(ui.draggable.attr("data-id"));
+        tl.attach(st);
+      }
+    });
+  });
+
   return {
     init: function(){
       var unreadStreams = {}, unreadTimelines = {};
@@ -23,27 +47,6 @@ View.Tabs = (function(){
           $('#tabs #timelines *[data-id="'+id+'"]').addClass('updated');
         });
 
-        $('#tabs #streams > li').draggable({
-          revert: "invalid",
-          helper: "clone",
-        });
-
-        $('#tabs #timelines').sortable({
-          "axis": "y",
-          "item": "li[data-id]",
-          "update": Timeline.saveOrder
-        });
-
-        $('#tabs #timelines > li').droppable({
-          accept: $('#streams > li'),
-          activeClass: "droppable-active",
-          hoverClass: "droppable-hover",
-          drop: function(ev, ui){
-            var tl = new Timeline($(this).attr('data-id'));
-            var st = new Stream(ui.draggable.attr("data-id"));
-            tl.attach(st);
-          }
-        });
       });
     }, // init end
 
