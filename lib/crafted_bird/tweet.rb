@@ -4,6 +4,7 @@ module CraftedBird
   module Tweet
     def self.canocalize(tweet, user)
       tweet = Hashie::Mash.new(tweet)
+      return tweet if tweet.error
       return tweet if tweet.context_user
 
       if !tweet["user"]
@@ -11,7 +12,7 @@ module CraftedBird
           :screen_name => tweet["from_user"] # for search stream
         }
       end
-      tweet["created_at"] = Time.parse(tweet["created_at"])
+      tweet["created_at"] = Time.parse(tweet["created_at"]) if tweet.created_at
       tweet["text"].gsub!(/@([0-9a-zA-Z_-]+)/){
         %Q!<a class="twitter-user" href="//twitter.com/#{$~[1]}" data-name="#{$~[1]}">#{$~[0]}</a>!
       }

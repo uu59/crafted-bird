@@ -60,9 +60,12 @@ module CraftedBird
       msgs.flatten.map{|m|
         m["id"] = m["id"].to_i * -1
         m = Hashie::Mash.new(m)
+        if m.error
+          return nil
+        end
         m.stream_type = "dm"
         m
-      }.sort_by{|m| m.id.to_i}.reverse
+      }.compact.sort_by{|m| m.id.to_i}.reverse
     end
 
     def method_missing(*args)
