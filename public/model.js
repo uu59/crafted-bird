@@ -44,14 +44,7 @@ Model.prototype.fetch = function(args, callback){
   }).done(function(html, ajaxtype, d){
     // ajaxtype = success, error, etc
     var ret_max = d.getResponseHeader("X-Max-Id");
-    if(compare_big_number_string(ret_max, self.max_id) == 1){
-      Event.fire(self.eventType+'.tweets.fetched', {
-        model: self,
-        old_max: self.max_id,
-        new_max: ret_max,
-      });
-      self.max_id = ret_max;
-    }
+    self.setMaxId(ret_max);
   });
 }
 
@@ -73,4 +66,11 @@ Model.prototype.activate = function(args){
     Model.d = null;
   });
   return Model.d;
+}
+
+Model.prototype.setMaxId = function(id){
+  if(compare_big_number_string(id, this.max_id) == 1){
+    this.max_id = id;
+    Event.fire(this.eventType + ".tweets.fetched", this);
+  }
 }

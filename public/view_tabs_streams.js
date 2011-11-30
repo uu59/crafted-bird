@@ -10,7 +10,7 @@ View.Tabs.Streams = (function(){
         $.each(streams, function(i, stream){
           var st = new Stream(stream.id);
           st.label = stream.label;
-          st.max_id = stream.max_id;
+          st.setMaxId(stream.max_id);
           models.push(st);
         });
         Streams.render();

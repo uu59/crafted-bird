@@ -10,7 +10,7 @@ View.Tabs.Timelines = (function(){
         $.each(tls, function(i, timeline){
           var tl = new Timeline(timeline.id);
           tl.label = timeline.label;
-          tl.max_id = timeline.max_id;
+          tl.setMaxId(timeline.max_id);
           tl.streams = [];
           $.each(timeline.streams, function(i, st){
             var stream = new Stream(st.id);
