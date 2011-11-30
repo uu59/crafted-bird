@@ -1,5 +1,9 @@
-function Model(id) {
-}
+$.ajaxSetup({
+  timeout: 7 * 1000
+});
+
+
+function Model() {}
 
 Model.prototype.createCallback = function(type, fn, args){
   var self = this;
@@ -27,7 +31,6 @@ Model.prototype.fetch = function(args, callback){
     type: "GET",
     data: args || {},
     url: this.url("fetch"),
-    timeout: 10 * 1000
   });
   return ajax.progress(function(msg){
     switch(msg){

@@ -18,7 +18,6 @@ Stream.create = function(query){
     url: "/stream/create",
     data: query ,
     type: "POST",
-    timeout: 10 * 1000
   }).done(function(id){
     if(id.match(/^[0-9]+$/)){
       View.Tabs.init();
