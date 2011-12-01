@@ -22,9 +22,8 @@ View.Tabs.Streams = (function(){
     render: function(){
       $('#tabs #streams').html("");
       $.each(models, function(i, model){
-        var li = $('<li data-type="stream" data-id="'+model.id+'"><span class="delete">x</span>'+model.label+'</li>');
-        li.attr('data-label', model.label);
-        $('#tabs ol#streams').append(li);
+        var bunch = new TweetsBunch(model);
+        $('#tabs ol#streams').append(bunch.element());
       });
     }
   }

@@ -56,7 +56,9 @@ View.Post = (function(){
           ViewPost.resetInReplyTo();
           Event.fire('post.after', user);
         }).fail(function(res){
-          alert("error\n" + res.responseText);
+          if(res.responseText){
+            alert("error\n" + res.responseText);
+          }
           tx.disabled = false;
         });
         View.TransStatus.add('tweet posting('+user+')', d);
@@ -98,8 +100,9 @@ View.Post = (function(){
       $.each(View.Tabs.Streams.getModels(), function(i, model){
         if(model.label.indexOf(user+'-home_timeline') > -1){
           model.dry_load().done(function(){
-            if(View.Tweets.getCurrent() == model){
-              model.activate();
+            var bunch = model.bunch();
+            if(TweetsBunch.current == bunch){
+              bunch.activate();
             }
           });
         }

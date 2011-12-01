@@ -380,3 +380,15 @@ a:visited {
   margin-top: 1em;
   clear:both;
 }
+
+
+#tabs .unread {
+  display:none;
+  font-style: normal;
+  font-size: xx-small;
+  padding-left:2px;
+  color: #220;
+}
+#tabs .updated .unread {
+  display:inline;
+}

@@ -2,7 +2,6 @@ $.ajaxSetup({
   timeout: 7 * 1000
 });
 
-
 function Model() {}
 
 Model.prototype.createCallback = function(type, fn, args){
@@ -48,24 +47,8 @@ Model.prototype.fetch = function(args, callback){
   });
 }
 
-Model.prototype.activate = function(args){
-  if(!this.id){
-    return $.Deferred();
-  }
-  if(Model.d && !!Model.d.abort){
-    console.log("abort", Model.d);
-    Model.d.abort();
-  }
-  Event.fire('view.tweets.beforeChange', this);
-  Model.d = this.fetch.call(this, args);
-  Event.fire('view.tweets.change', {
-    d: Model.d,
-    model: this
-  });
-  Model.d.always(function(){
-    Model.d = null;
-  });
-  return Model.d;
+Model.prototype.bunch = function(){
+  return new TweetsBunch(this);
 }
 
 Model.prototype.setMaxId = function(id){

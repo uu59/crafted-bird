@@ -13,7 +13,7 @@ View.TransStatus = (function(){
       var self = this;
       if(defer){
         child.click(function(){
-          defer.reject();
+          (defer.abort || defer.reject)();
         });
         defer.fail(function(){
           child.addClass('failed');

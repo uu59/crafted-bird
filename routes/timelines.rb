@@ -27,6 +27,16 @@ get "/timelines" do
   tls.to_json
 end
 
+get "/timelines/:id/unread/:from_id" do
+  halt(400) if params[:from_id].to_i == 0
+  tl = ::Timeline[:id => params[:id]]
+  halt(404) unless tl
+  stids = tl.streams.map{|st|st[:id]}
+  halt(200, 0) if stids.length == 0
+  unread = DB[:streams_tweets].filter(:stream_id => stids).filter("tweet_id > ?", params[:from_id]).count || 0
+  unread.to_s
+end
+
 put "/timelines/order" do
   order = params[:order].map{|tlid| tlid.to_i}
   File.open(CraftedBird::TIMELINES_ORDER_FILE, "w"){|f|

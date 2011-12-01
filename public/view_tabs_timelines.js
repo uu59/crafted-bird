@@ -30,9 +30,9 @@ View.Tabs.Timelines = (function(){
 
     render: function(){
       $('#tabs #timelines').html("");
-      $.each(models, function(i, tl){
-        var html_tl = $('<li data-bookmark-id="'+tl.max_id+'" data-type="timeline" data-id="'+tl.id+'"><span class="edit" data-timeline-id="'+tl.id+'">⚙</span>'+tl.label+'<small>('+tl.streams.length+')</small></li>');
-        $('#tabs #timelines').append(html_tl);
+      $.each(models, function(i, model){
+        var bunch = new TweetsBunch(model);
+        $('#tabs #timelines').append(bunch.element());
       });
     }
   }

@@ -45,10 +45,10 @@ Stream.prototype.dry_load = function(){
     self.dryloading = null;
   });
   this.dryloading = d;
-  View.loadingIcon(d).prependTo(this.element());
-  this.timelines.forEach(function(tl){
-    View.loadingIcon(d).prependTo(tl.element());
-  });
+  Event.fire('stream.before.dryLoad', this);
+  d.always(function(){
+    Event.fire('stream.after.dryLoad', self);
+  })
   return d;
 }
 
