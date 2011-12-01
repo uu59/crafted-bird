@@ -11,7 +11,7 @@ View.Tweets = (function(){
   }
 
   Event.trap('timeline.tweets.fetched', function(ev){
-    var tl = ev.data.model;
+    var tl = ev.data;
     var elm = $(tl.element());
 
     if(compare_big_number_string(ev.data.old_max, ev.data.new_max) == -1){
@@ -25,15 +25,11 @@ View.Tweets = (function(){
   });
 
   Event.trap('stream.tweets.fetched', function(ev){
-    var stream = ev.data.model;
+    var stream = ev.data;
     var elm = $(stream.element());
     elm.addClass('updated');
     $.each(stream.timelines, function(i, tl){
-      Event.fire('timeline.tweets.fetched', {
-        model: tl,
-        old_max: tl.max_id,
-        new_max: ev.data.new_max
-      });
+      tl.setMaxId(ev.data.new_max);
     });
   });
 

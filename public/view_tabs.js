@@ -51,14 +51,25 @@ View.Tabs = (function(){
     }, // init end
 
     check: function(){
-      var pad = 0;
+      var streams = [], parallelLevel = 2;
+      var nextjob = function(){
+        var st = streams.shift();
+        if(!st){
+          return ;
+        }
+        st.dry_load().always(function(){
+          nextjob();
+        });
+      }
       $.each(View.Tabs.Timelines.getModels(), function(i, tl){
         $.each(tl.streams, function(i, st){
-          setTimeout(function(){
-            st.dry_load();
-          }, ++pad * 1400);
+          streams.push(st);
+          streams = $.unique(streams);
         });
       });
+      while(--parallelLevel >= 0){
+        nextjob();
+      }
     }
   };
 })();
