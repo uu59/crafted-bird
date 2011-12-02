@@ -1,19 +1,19 @@
 View.Tabs = (function(){
 
-  $(function(){
-    $('#tabs #streams > li').draggable({
+  function init(){
+    $('#tabs #streams > li').draggable('destroy').draggable({
       revert: "invalid",
       helper: "clone",
     });
 
-    $('#tabs #timelines').sortable({
+    $('#tabs #timelines').sortable('destroy').sortable({
       "axis": "y",
       "item": "li[data-id]",
       "update": Timeline.saveOrder
     });
 
-    $('#tabs #timelines > li').droppable({
-      accept: $('#streams > li'),
+    $('#tabs #timelines > li').droppable('destroy').droppable({
+      accept: $('#tabs #streams > li'),
       activeClass: "droppable-active",
       hoverClass: "droppable-hover",
       drop: function(ev, ui){
@@ -22,7 +22,7 @@ View.Tabs = (function(){
         tl.attach(st);
       }
     });
-  });
+  }
 
   return {
     init: function(){
@@ -40,6 +40,7 @@ View.Tabs = (function(){
         View.Tabs.Streams.fetch(),
         View.Tabs.Timelines.fetch()
       ).done(function(){
+        init();
         $.each(unreadStreams, function(id, _){
           $('#tabs #streams *[data-id="'+id+'"]').addClass('updated');
         });
