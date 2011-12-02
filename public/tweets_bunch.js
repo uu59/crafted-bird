@@ -79,6 +79,16 @@ TweetsBunch.prototype = {
     $('.unread', this.element()).html("("+cnt+")");
   },
 
+  checkUnread: function(){
+    var self = this;
+    $.ajax({
+      type: "GET",
+      url: "/timelines/"+this.model.id+"/unread/"+this.alreadyRead()
+    }).done(function(res){
+      self.unreadCount(res);
+    });
+  },
+
   activate: function(){
     var self = this;
     var current = TweetsBunch.current;
@@ -131,11 +141,12 @@ TweetsBunch.prototype = {
 
 Event.trap('timeline.tweets.fetched', function(ev){
   var tl = ev.data;
-  var bunch = tl.bunch();
-  $.ajax({
-    type: "GET",
-    url: "/timelines/"+tl.id+"/unread/"+bunch.alreadyRead()
-  }).done(function(res){
-    bunch.unreadCount(res);
+  tl.bunch().checkUnread();
+});
+
+Event.trap('stream.after.dryLoad', function(ev){
+  var stream = ev.data;
+  stream.timelines.forEach(function(tl){
+    tl.bunch().checkUnread();
   });
 });
