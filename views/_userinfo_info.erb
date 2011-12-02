@@ -1,10 +1,28 @@
 
     <img src="<%==@info.profile_image_url%>" width="64" height="64" />
-    <a class="twitter-user" href="//twitter.com/<%==@info.screen_name%>" data-name="<%==@info.screen_name%>"><%==@info.screen_name%></a>
+    <p class="profile">
+      <a class="twitter-user"
+        href="//twitter.com/<%==@info.screen_name%>"
+        data-name="<%==@info.screen_name%>"><%==@info.screen_name%></a>(<%==@info.name%>)
+    </p>
+
     <% if @info.url %>
-      <a href="<%==@info.url%>"><%==@info.url%></a>
+      <p class="url">
+        <a href="<%==@info.url%>"><%==@info.url%></a>
+      </p>
     <% end %>
-    <p>
+    <p class="description">
       <%= nl2br(@info.description) %>
     </p>
-  
+    <p class="location">From: <%==@info.location%></p>
+    <p class="follow">
+      Following / Followed :
+      <a href="https://twitter.com/<%==@info.screen_name%>/following"><%==@info.friends_count%></a>
+      /
+      <a href="https://twitter.com/<%==@info.screen_name%>/followers"><%==@info.followers_count%></a>
+    </p>
+    <p class="assets">
+      <span class="statuses">statuses: <a href="https://twitter.com/<%==@info.screen_name%>"><%==@info.statuses_count%></a></span>
+      <span class="fav">fav: <a href="https://twitter.com/<%==@info.screen_name%>/favorites"><%==@info.favourites_count%></a></span>
+      <span class="listed">listed: <a href="https://twitter.com/<%==@info.screen_name%>/lists/memberships"><%==@info.listed_count%></a></span>
+    </p>
