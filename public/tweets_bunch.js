@@ -25,11 +25,7 @@ TweetsBunch.getThisPositionedTweet = function(y){
   $('#tweets > li').each(function(i, li){
     y -= $(li).outerHeight(true);
     if(y <= 0){
-      if(i == 0){
-        target = li;
-      }else{
-        target = $(li).next()[0] || li;
-      }
+      target = $(li).next()[0] || li;
       return false;
     }
   });
