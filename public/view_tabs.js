@@ -69,7 +69,9 @@ View.Tabs = (function(){
         });
       });
       while(--parallelLevel >= 0){
-        nextjob();
+        setTimeout(function(){
+          nextjob();
+        }, 500 * parallelLevel);
       }
     }
   };
