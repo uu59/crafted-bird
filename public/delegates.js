@@ -189,11 +189,15 @@ $(document).delegate('#popup .create-stream select[name="method"]', 'change', fu
     case "user_timeline":
     case "favorites":
     case "retweeted_by_user":
+    case "retweeted_to_user":
       var content = $('<p>id(screen_name): <input type="text" name="args[id]" value="" /></p>');
       break;
     case "search":
       var content = $('<p>q: <input type="text" name="args[q]" value="" /></p>');
       break;
+    case "retweeted_by_me":
+    case "retweeted_to_me":
+    case "retweets_of_me":
     default:
       return ;
   }

@@ -22,11 +22,6 @@ module CraftedBird
       super(arg)
     end
 
-    def retweeted_by_user(arg={})
-      arg.merge!(:include_entities => true, :include_rts => true, :trim_user => false, :count => 200)
-      @client.__send__(:get, "/statuses/retweeted_by_user.json?screen_name=#{arg["id"]}&include_entities=true")
-    end
-
     def search(*args)
       args = normalize(*args)
       args.merge!(:result_type => "recent", :include_entities => true, :rpp => 100)
@@ -40,6 +35,24 @@ module CraftedBird
         }
         tw
       }
+    end
+
+    %w!user me!.each do |u|
+      %w!by to!.each do |m|
+        next if u == "user" && m == "of"
+        class_eval <<-EOS
+          def retweeted_#{m}_#{u}(*args)
+            args = normalize(*args)
+            args.merge!(:include_entities => true, :include_rts => true, :trim_user => false, :count => 100)
+            @client.__send__(:get, "/statuses/retweeted_#{m}_#{u}.json?\#{Rack::Utils.build_query(args)}")
+          end
+        EOS
+      end
+    end
+    def retweets_of_me(*args)
+      args = normalize(*args)
+      args.merge!(:include_entities => true, :include_rts => true, :trim_user => false, :count => 200)
+      @client.__send__(:get, "/statuses/retweets_of_me.json?#{Rack::Utils.build_query(args)}")
     end
 
     def favorites(*args)
