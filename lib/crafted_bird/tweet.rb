@@ -63,7 +63,9 @@ module CraftedBird
         if tweet["entities"]["media"]
           tweet["entities"]["media"].each{|u|
             tweet["text"].gsub!(u["url"]) do
-              "<a href=\"//#{u["display_url"]}\"><img src=\"#{image_url(u) || u["media_url"]}\" /></a>"
+              # display_url will be deeplink when it's a p.twimg.com image because pic.twitter.com required JavaScript
+              display_url = u["display_url"].match(/pic\.twitter\.com/) ? u["media_url"] : "//" + u["display_url"]
+              %Q!<a href="#{display_url}"><img src="#{image_url(u) || u.media_url_https || u.media_url}" /></a>!
             end
           }
         end
