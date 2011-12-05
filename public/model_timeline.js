@@ -15,13 +15,9 @@ Timeline.instances = {}
 Timeline.saveOrder = function() {
   var order = [];
   $('#tabs #timelines li[data-id]').each(function(i, tl){
-    order.push($(tl).attr('data-id'));
+    order.push(parseInt($(tl).attr('data-id')));
   });
-  return $.ajax({
-    url: "/timelines/order",
-    type: "PUT",
-    data: {"order[]": order}
-  });
+  Data.set("timelineOrder", order);
 }
 Timeline.create = function(query){
   var d = $.ajax({

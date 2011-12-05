@@ -11,7 +11,6 @@ get "/timelines" do
     {
       :id => tl.id,
       :label => tl.label,
-      :max_id => tl.model.maxid.to_s,
       :streams => tl.streams.map{|st|
         {
           :id => st.model.id,
@@ -28,12 +27,12 @@ get "/timelines" do
 end
 
 get "/timelines/:id/unread/:from_id" do
-  halt(400) if params[:from_id].to_i == 0
+  halt(400) if params[:from_id].to_i == 0 && params[:from_id] != "0"
   tl = ::Timeline[:id => params[:id]]
   halt(404) unless tl
   stids = tl.streams.map{|st|st[:id]}
   halt(200, 0) if stids.length == 0
-  unread = DB[:streams_tweets].filter(:stream_id => stids).filter("tweet_id > ?", params[:from_id]).count || 0
+  unread = DB[:streams_tweets].filter(:stream_id => stids).filter("ABS(tweet_id) > ?", params[:from_id].to_i.abs).count || 0
   unread.to_s
 end
 

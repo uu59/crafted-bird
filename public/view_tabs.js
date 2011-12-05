@@ -43,11 +43,12 @@ View.Tabs = (function(){
         init();
         $.each(unreadStreams, function(id, _){
           $('#tabs #streams *[data-id="'+id+'"]').addClass('updated');
+          (new TweetsBunch(id)).checkUnread();
         });
         $.each(unreadTimelines, function(id, _){
           $('#tabs #timelines *[data-id="'+id+'"]').addClass('updated');
         });
-
+      }).done(function(){
       });
     }, // init end
 

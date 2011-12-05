@@ -7,7 +7,10 @@ function TweetsBunch(model){
   if(TweetsBunch.instances[id]){
     return TweetsBunch.instances[id];
   }
+  this.id = id;
   this._elm = null;
+  this.bookmark(Data.get('bunch-'+this.id+'-bookmark'));
+  this.unreadCount(Data.get('bunch-'+this.id+'-unread'));
   TweetsBunch.instances[id] = this;
 }
 
@@ -21,11 +24,12 @@ TweetsBunch.clear = function(){ /* for View.Tabs.init() */
 }
 
 TweetsBunch.getThisPositionedTweet = function(y){
-  var y = y || window.scrollY, target;
+  var target, y = y || window.scrollY;
+  y -= $('#tweets-info').offset().top;
   $('#tweets > li').each(function(i, li){
     y -= $(li).outerHeight(true);
     if(y <= 0){
-      target = $(li).next()[0] || li;
+      target = li;
       return false;
     }
   });
@@ -42,14 +46,14 @@ TweetsBunch.prototype = {
       case "timeline":
         elm = $('<li data-type="timeline"><span class="edit" data-timeline-id="'+this.model.id+'">⚙</span>'+this.model.label+'<small class="unread">(0)</small></li>');
         elm.attr('data-id', this.model.id);
-        elm.attr('data-bookmark-id', this.model.max_id);
-        elm.attr('data-already-read-id', this.model.max_id);
+        elm.attr('data-bookmark-id', this.bookmark());
+        elm.attr('data-already-read-id', this.alreadyRead());
         break;
       case "stream":
         elm = $('<li data-type="stream" data-id="'+this.model.id+'"><em class="unread"></em><span class="delete">x</span>'+this.model.label+'</li>');
         elm.attr('data-label', this.model.label);
-        elm.attr('data-bookmark-id', this.model.max_id);
-        elm.attr('data-already-read-id', this.model.max_id);
+        elm.attr('data-bookmark-id', this.bookmark());
+        elm.attr('data-already-read-id', this.alreadyRead());
         break;
     }
     this._elm = elm;
@@ -57,47 +61,70 @@ TweetsBunch.prototype = {
   },
 
   alreadyRead: function(id){ /* getter/setter */
+    var datakey = 'bunch-' + this.id + '-alreadyRead';
     if(!id){
-      return this.element().attr('data-already-read-id');
+      return Data.get(datakey);
     }
-    var oldid = this.alreadyRead();
+    var oldid = Data.get(datakey);
     if(compare_big_number_string(oldid, id) == -1){
+      Data.set(datakey, id);
       this.element().attr('data-already-read-id', id);
     }
-    return this.alreadyRead();
+    return Data.get(datakey);
   },
 
   bookmark: function(id){ /* getter/setter */
+    var datakey = 'bunch-'+this.id+'-bookmark';
     if(!id){
-      return this.element().attr('data-bookmark-id');
+      return Data.get(datakey);
     }
+    Data.set(datakey, id); 
     this.element().attr('data-bookmark-id', id);
     return this.bookmark();
   },
 
   unreadCount: function(cnt){
-    $('.unread', this.element()).html("("+cnt+")");
+    if(!cnt){
+      return ;
+    }
+    var cnt = parseInt(cnt);
+    Data.set('bunch-'+this.id+'-unread', cnt); 
+    if(cnt > 300){
+      $('.unread', this.element()).html("(300+)");
+    }else{
+      $('.unread', this.element()).html("("+cnt+")");
+    }
+
+    if(cnt > 0 && TweetsBunch.current != this){
+      this.model.element().addClass('updated');
+    }else{
+      this.model.element().removeClass('updated');
+    }
   },
 
   checkUnread: function(){
     var self = this;
     $.ajax({
       type: "GET",
-      url: "/timelines/"+this.model.id+"/unread/"+this.alreadyRead()
+      url: "/timelines/"+this.model.id+"/unread/"+(this.alreadyRead() || 0)
     }).done(function(res){
       self.unreadCount(res);
     });
   },
 
-  activate: function(){
-    var self = this;
+  finalizer: function(){
     var current = TweetsBunch.current;
     if(current){
       var target = TweetsBunch.getThisPositionedTweet(window.scrollY);
       current.bookmark($(target).attr('data-id'));
       current.alreadyRead($(target).attr('data-id'));
     }
+  },
+
+  activate: function(){
+    var self = this;
     Sound.play("changeTweets");
+    this.finalizer();
 
     if(TweetsBunch.changing){
       TweetsBunch.changing.abort();
@@ -113,11 +140,14 @@ TweetsBunch.prototype = {
       var pad = $('#tweets').offset().top;
       var to, id = self.bookmark();
       try {
+        // if bookmark id exists, scroll to there
         if(id && $("#tweets li[data-id="+id+"]").length > 0){
           to = $("#tweets li[data-id="+id+"]").offset().top - pad;
         }else{
-          var maxid = bunch.alreadyRead();
-          if(maxid) {
+          // if alreadyRead id exits, scroll to there.
+          // else 
+          var maxid = self.alreadyRead();
+          if(maxid && $('#tweets li[data-id="'+maxid+'"]').length > 0) {
             to = $('#tweets li[data-id="'+maxid+'"]').offset().top - pad;
           }else{
             to = $('#tweets').height();
@@ -128,7 +158,7 @@ TweetsBunch.prototype = {
       }
 
       window.scroll(0, to);
-      if(current == self){
+      if(TweetsBunch.current == self){
         $('#tweets-line').height(TweetsBunch.getThisPositionedTweet($('#tweets-line').height()));
       }else{
         $('#tweets-line').height(to);

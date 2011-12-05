@@ -1,3 +1,4 @@
+<div id="tweets-info">
 <h2><%== @label || ""%></h2>
 <ul id="timeline-streams">
   <% @streams.each{|st| %>
@@ -6,6 +7,7 @@
     </li>
   <% } %>
 </ul>
+</div>
 
 <ol id="tweets" class="tweets">
 <% @timeline.each{|tw| %>

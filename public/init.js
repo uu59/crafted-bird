@@ -1,4 +1,10 @@
 $(function(){
+  window.addEventListener('beforeunload', function(e){
+    try {
+      TweetsBunch.current.finalizer();
+    }catch(e){}
+  }, false);
+
   View.adjustHeight();
   View.Tabs.init();
   window.setInterval(function(){

@@ -4,6 +4,10 @@ $.ajaxSetup({
 
 function Model() {}
 
+Model.prototype.wrapDataPrefix = function(key){
+  return "model-" + this.eventType + this.id + "-" + key;
+}
+
 Model.prototype.createCallback = function(type, fn, args){
   var self = this;
   return function(){
@@ -54,6 +58,7 @@ Model.prototype.bunch = function(){
 Model.prototype.setMaxId = function(id){
   if(compare_big_number_string(id, this.max_id) == 1){
     this.max_id = id;
+    Data.set(this.wrapDataPrefix("maxid"), id);
     Event.fire(this.eventType + ".tweets.fetched", this);
   }
 }

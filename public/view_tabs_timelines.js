@@ -7,10 +7,16 @@ View.Tabs.Timelines = (function(){
     fetch: function(){
       var d = $.getJSON('/timelines', function(tls){
         models = [];
+        var order = Data.get('timelineOrder');
+        if(order){
+          tls.sort(function(a,b){
+            return order.indexOf(a.id) - order.indexOf(b.id);
+          });
+        }
         $.each(tls, function(i, timeline){
           var tl = new Timeline(timeline.id);
           tl.label = timeline.label;
-          tl.setMaxId(timeline.max_id);
+          tl.setMaxId(Data.get(tl.wrapDataPrefix("maxid")) || 1);
           tl.streams = [];
           $.each(timeline.streams, function(i, st){
             var stream = new Stream(st.id);
