@@ -1,5 +1,9 @@
 A browser-based Twitter client
 
+== CAUTION ==
+
+This project is under development. It could be any drastic changes.
+
 ## Inspired by
 
 * [Tween](http://sourceforge.jp/projects/tween/wiki/FrontPage)
