@@ -1,3 +1,2 @@
-conf/tokens.yml
-conf/timelines_order.json
+conf/*
 log.db

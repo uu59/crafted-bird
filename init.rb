@@ -14,8 +14,8 @@ APP_ROOT = Sinatra::Application.root || File.dirname(__FILE__)
 
 Dir.glob("#{APP_ROOT}/lib/**/*.rb"){|f| require f}
 
-TW_CONSUMER_TOKEN = "4i22HgTk0KSTkUKz73y5Tg"
-TW_CONSUMER_SECRET = "sIgmPx6aLqh5oZ1693SfuSY2tny5wrCbQePvPqWsw"
+TW_CONSUMER_TOKEN = "A5MeJ3qkFEuqFw0suinz1g"
+TW_CONSUMER_SECRET = "i1sh5FY02ZVg2bh8nBYU4j5bxs2oHGIcRGwWflsDL8"
 USERS_YAML_PATH = "#{APP_ROOT}/conf/tokens.yml"
 
 unless File.directory?(File.dirname(USERS_YAML_PATH))
