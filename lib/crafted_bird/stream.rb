@@ -34,7 +34,9 @@ module CraftedBird
       tweets.each do |tweet|
         begin
           @model.add_tweets ::Tweet.find(:id => tweet["id"]) || begin
-            ::Tweet.create(:id => tweet["id"], :msgpack => tweet.to_msgpack)
+            tw = Tweet.canocalize(tweet, @context)
+            tw.created_at = tw.created_at.to_s
+            ::Tweet.create(:id => tweet["id"], :msgpack => tw.to_hash.to_msgpack)
           end
           has_new = true
         rescue => ex

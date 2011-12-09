@@ -5,11 +5,13 @@ module CraftedBird
     def self.canocalize(tweet, user)
       tweet = Hashie::Mash.new(tweet)
       return tweet if tweet.error
-      return tweet if tweet.context_user
 
-      if !tweet["user"]
+      if tweet.user.nil?
+        # for search stream
         tweet["user"] = {
-          :screen_name => tweet["from_user"] # for search stream
+          :screen_name => tweet.from_user,
+          :profile_image_url => tweet.profile_image_url,
+          :protected_user => false,
         }
       end
       tweet["created_at"] = Time.parse(tweet["created_at"]) if tweet.created_at
@@ -23,6 +25,7 @@ module CraftedBird
 
 
       tweet.context_user = user
+      tweet = Tweet.prune(tweet)
       tweet
     end
 
@@ -38,6 +41,17 @@ module CraftedBird
       elsif u["lockerz.com"]
         "http://api.plixi.com/api/tpapi.svc/imagefromurl?url=#{Rack::Utils.escape("http://#{u}")}&size=small"
       end
+    end
+
+    def self.prune(tweet)
+      pruned = Hashie::Mash.new({:user => {}})
+      %w!id in_reply_to_status_id in_reply_to_screen_name created_at context_user retweeted_status source text entities!.each do |p|
+        pruned[p] = tweet[p]
+      end
+      %w!profile_image_url protected_user screen_name!.each do |up|
+        pruned.user[up] = tweet.user[up]
+      end
+      pruned
     end
 
     def self.canonical_entities(tweet)
