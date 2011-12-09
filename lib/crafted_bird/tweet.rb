@@ -21,6 +21,7 @@ module CraftedBird
           tweet.stream_type = "dm"
         end
       end
+
       tweet["created_at"] = Time.parse(tweet["created_at"]) if tweet.created_at
       tweet["text"].gsub!(/@([0-9a-zA-Z_-]+)/){
         %Q!<a class="twitter-user" href="//twitter.com/#{$~[1]}" data-name="#{$~[1]}">#{$~[0]}</a>!

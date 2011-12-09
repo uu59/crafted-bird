@@ -11,18 +11,20 @@ get "/streams" do
   }.sort_by{|st| st[:label]}.to_json
 end
 
+head "/streams/:id/reload" do
+  st = CraftedBird.streams.find{|st| st.id.to_s == params[:id].to_s}
+  halt(404) unless st
+  if st.fetch_from_api
+    halt(204)
+  else
+    halt(304)
+  end
+end
+
 get "/streams/:id" do
   st = CraftedBird.streams.find{|st| st.id.to_s == params[:id].to_s}
   halt(404) unless st
-  if params[:dry]
-    puts "dry fetch"
-    if st.fetch_from_api(:since_id => params[:max_id])
-      halt(204)
-    else
-      halt(304)
-    end
-  end
-  @timeline = st.fetch(:force => params[:force] == "true")
+  @timeline = st.fetch
   @streams = [st]
   @label = st.label
   headers(

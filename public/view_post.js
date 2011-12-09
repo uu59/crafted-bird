@@ -97,10 +97,10 @@ View.Post = (function(){
   Event.trap('post.after', function(ev){
     var user = ev.data;
     setTimeout(function(){
-      $.each(View.Tabs.Streams.getModels(), function(i, model){
-        if(model.label.indexOf(user+'-home_timeline') > -1){
-          model.dry_load().done(function(){
-            var bunch = model.bunch();
+      $.each(View.Tabs.Streams.getModels(), function(i, stream){
+        if(stream.label.indexOf(user+'-home_timeline') > -1){
+          stream.dry_load().done(function(){
+            var bunch = stream.bunch();
             if(TweetsBunch.current == bunch){
               bunch.activate();
             }

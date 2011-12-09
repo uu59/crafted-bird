@@ -36,19 +36,24 @@ Stream.prototype.element = function(){
 
 Stream.prototype.dry_load = function(){
   if(this.dryloading){
-    this.dryloading.notify("abort");
+    this.dryloading.abort();
     this.dryloading = null;
     console.log("duplicating dry load: " + this.label);
   }
   var self = this;
-  var d = this.fetch({"force": true}).always(function(){
-    self.dryloading = null;
+  var d = $.ajax({
+    type: "HEAD",
+    url: "/streams/"+this.id+"/reload"
   });
+  d.done(function(){
+    Event.fire('stream.after.dryLoad', self);
+  }).always(function(){
+    self.dryloading = null;
+    d = null;
+  });
+
   this.dryloading = d;
   Event.fire('stream.before.dryLoad', this);
-  d.always(function(){
-    Event.fire('stream.after.dryLoad', self);
-  })
   return d;
 }
 

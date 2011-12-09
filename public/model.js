@@ -24,9 +24,7 @@ Model.prototype.url = function(){
 Model.prototype.fetch = function(args, callback){
   var callback = callback || {};
   var self = this;
-  var args = $.extend(args || {}, {
-    "max_id": self.max_id
-  });
+  var args = args || {};
   if(!this.id){
     return $.Deferred();
   }

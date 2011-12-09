@@ -36,6 +36,9 @@ module CraftedBird
           @model.add_tweets ::Tweet.find(:id => tweet["id"]) || begin
             tw = Tweet.canocalize(tweet, @context)
             tw.created_at = tw.created_at.to_s
+            if tw.retweeted_status
+              tw.retweeted_status.created_at = tw.retweeted_status.created_at.to_s
+            end
             ::Tweet.create(:id => tweet["id"], :msgpack => tw.to_hash.to_msgpack)
           end
           has_new = true
@@ -47,6 +50,9 @@ module CraftedBird
       begin
         @model[:last_updated] = Time.now
         @model[:max_id] = tweets.map{|tw| tw["id"].to_i}.max
+      rescue => e
+        p tweets
+        raise e
       ensure
         @model.save
       end
@@ -55,14 +61,14 @@ module CraftedBird
 
     def fetch(opt={})
       last_updated = @model[:last_updated]
-      if opt[:force] || (last_updated.nil? || Time.now - last_updated > 60)
+      if opt[:force] || last_updated.nil?
         begin
           fetch_from_api
         end
       end
 
       tweets = @model.recent(300).map{|tw|
-        CraftedBird::Tweet.canocalize(MessagePack.unpack(tw[:msgpack]), @context)
+        CraftedBird::Tweet.canocalize(tw.content, @context)
       }
       if @method != :favorites
         tweets.sort_by{|tw| tw.created_at}.reverse
