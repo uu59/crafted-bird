@@ -96,9 +96,9 @@ TweetsBunch.prototype = {
     }
 
     if(cnt > 0 && TweetsBunch.current != this){
-      this.model.element().addClass('updated');
+      this.element().addClass('updated');
     }else{
-      this.model.element().removeClass('updated');
+      this.element().removeClass('updated');
     }
   },
 
@@ -136,7 +136,7 @@ TweetsBunch.prototype = {
     d.done(function(html){
       TweetsBunch.changing = null;
       $('#main').html(html);
-      self.model.element().removeClass('updated');
+      self.element().removeClass('updated');
       var pad = $('#tweets').offset().top;
       var to, id = self.bookmark();
       try {

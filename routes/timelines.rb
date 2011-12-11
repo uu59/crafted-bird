@@ -31,7 +31,7 @@ get "/timelines/:id/unread/:from_id" do
   tl = ::Timeline[:id => params[:id]]
   halt(404) unless tl
   stids = tl.streams.map{|st|st[:id]}
-  halt(200, 0) if stids.length == 0
+  halt(200, "0") if stids.length == 0
   unread = DB[:streams_tweets].filter(:stream_id => stids).filter("ABS(tweet_id) > ?", params[:from_id].to_i.abs).count || 0
   unread.to_s
 end
@@ -119,5 +119,3 @@ get "/timelines/:id" do
   )
   erb :timeline, :layout => false
 end
-
-

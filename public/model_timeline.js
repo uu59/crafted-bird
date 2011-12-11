@@ -37,16 +37,6 @@ Timeline.prototype.element = function(){
   return $('#timelines li[data-id="'+this.id+'"]');
 }
 
-Timeline.prototype.reloadStreams = function(){
-  var self = this;
-  return $.ajax({
-    type: "GET",
-    url: "/timelines/"+this.id+"/streams",
-  }).done(function(json, type, d){
-    self.streams = json;
-  });
-}
-
 Timeline.prototype.url = function(type){
   switch(type){
     default:
