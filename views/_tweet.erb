@@ -1,6 +1,6 @@
-<li data-id="<%== tw.id %>" data-context="<%== tw.context_user %>" class="<%=tw.in_reply_to_screen_name == tw.context_user.to_s ? "reply-to-me":""%>">
+<li data-id="<%== tw.id %>" data-context="<%== tw.context_user %>" class="<%=tw.in_reply_to_screen_name == tw.context_user ? "reply-to-me":""%>">
     <p class="appendix">
-      <% if tw.user.screen_name == tw.context_user.to_s %>
+      <% if tw.user.screen_name == tw.context_user %>
         <span data-id="<%=tw.id%>" data-name="<%=tw.user.screen_name%>" class="delete">Delete</span>
       <% end %>
     <span data-id="<%=tw.id%>" class="rt">RT</span>
@@ -9,8 +9,8 @@
   <% if tw.retweeted_status %>
     <p class="author">
       <span>
-        <img width="48" height="48" src="<%==tw.retweeted_status.user.profile_image_url || tw.profile_image_url%>" />
-      <img width="24" height="24" style="position:absolute; left:-28px; top:22px; margin-right:-24px;" src="<%=tw.user.profile_image_url || tw.profile_image_url%>" />
+        <img width="48" height="48" src="<%==tw.retweeted_status.user.profile_image_url %>" />
+      <img width="24" height="24" style="position:absolute; left:-28px; top:22px; margin-right:-24px;" src="<%=tw.user.profile_image_url%>" />
     </span>
     <span><img src="/images/rt.png" width="16" height="16" style="position:static"/><a data-name="<%==tw.retweeted_status.user.screen_name%>" 
         class="twitter-user" href="//twitter.com/<%= tw.retweeted_status.user.screen_name %>">
@@ -30,7 +30,7 @@
  <% else %>
     <p class="author">
       <span>
-        <img width="48" height="48" src="<%==tw.user.profile_image_url || tw.profile_image_url%>" />
+        <img width="48" height="48" src="<%==tw.user.profile_image_url%>" />
         <a data-name="<%==tw.user.screen_name%>" class="twitter-user" href="//twitter.com/<%= tw.user.screen_name %>"
           ><%=protected_user(tw.user.protected)%><%= tw.user.screen_name %></a>
   </span>

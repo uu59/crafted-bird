@@ -1,6 +1,8 @@
-<li data-name="<%== dm.context_user %>" data-id="<%==dm.id.abs * -1%>">
+<li class="dm" data-name="<%== dm.context_user %>" data-id="<%==dm.id.abs * -1%>">
   <p class="appendix">
-    <span data-id="<%=dm.id%>" class="delete">Delete</span>
+    <% if dm.context_user == dm.sender.screen_name %>
+      <span data-id="<%=dm.id%>" class="delete">Delete</span>
+    <% end %>
     <span data-name="<%==dm.sender.screen_name%>" data-user="<%==dm.context_user%>" class="reply-dm">reply</a>
   </p>
   <p class="author">

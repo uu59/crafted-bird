@@ -7,12 +7,19 @@ module CraftedBird
       return tweet if tweet.error
 
       if tweet.user.nil?
-        # for search stream
-        tweet["user"] = {
-          :screen_name => tweet.from_user,
-          :profile_image_url => tweet.profile_image_url,
-          :protected_user => false,
-        }
+        if tweet.from_user
+          # for search stream
+          tweet["user"] = {
+            :screen_name => tweet.from_user,
+            :profile_image_url => tweet.profile_image_url,
+            :protected_user => false,
+          }
+          tweet.stream_type = "search"
+        else
+          # for DM
+          tweet["user"] = tweet.sender.screen_name == user.to_s ? tweet.recipient : tweet.sender
+          tweet.stream_type = "dm"
+        end
       end
       tweet["created_at"] = Time.parse(tweet["created_at"]) if tweet.created_at
       tweet["text"].gsub!(/@([0-9a-zA-Z_-]+)/){
@@ -24,7 +31,7 @@ module CraftedBird
       end
 
 
-      tweet.context_user = user
+      tweet.context_user = user.to_s
       tweet = Tweet.prune(tweet)
       tweet
     end
@@ -45,11 +52,16 @@ module CraftedBird
 
     def self.prune(tweet)
       pruned = Hashie::Mash.new({:user => {}})
-      %w!id in_reply_to_status_id in_reply_to_screen_name created_at context_user retweeted_status source text entities!.each do |p|
+      %w!stream_type id in_reply_to_status_id in_reply_to_screen_name created_at context_user retweeted_status source text entities!.each do |p|
         pruned[p] = tweet[p]
       end
       %w!profile_image_url protected_user screen_name!.each do |up|
         pruned.user[up] = tweet.user[up]
+      end
+      if tweet.stream_type == "dm"
+        %w!sender recipient!.each do |dm|
+          pruned[dm] = tweet[dm]
+        end
       end
       pruned
     end
