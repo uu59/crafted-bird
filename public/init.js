@@ -11,12 +11,12 @@ $(function(){
 
   View.adjustHeight();
   View.Tabs.init();
-  function autoreload(){
+  (function autoreload(){
     window.setTimeout(function(){
       View.Tabs.check();
       autoreload();
     }, 300 * 1000);
-  }
+  })();
 
   var update_rate_limit = function(){
     $.ajax({
