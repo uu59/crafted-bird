@@ -135,6 +135,15 @@ $(document).delegate('.tweets a[data-hashtag]', 'click', function(ev){
   });
 });
 
+$(document).delegate('#tweets-info .reload ', 'click', function(ev){
+  var id = $(this).attr('data-id');
+  var type = $(this).attr('data-type');
+  if(type == "timeline"){
+    (new Timeline(id)).dry_load();
+  }else{
+    (new Stream(id)).dry_load();
+  }
+});
 $(document).delegate('#tweets .appendix span', 'click', function(ev){
   var self = $(this);
   if(this.className == "reply"){

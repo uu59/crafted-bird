@@ -5,11 +5,18 @@ $(function(){
     }catch(e){}
   }, false);
 
+  window.addEventListener("resize", function(){
+    View.adjustHeight();
+  }, false);
+
   View.adjustHeight();
   View.Tabs.init();
-  window.setInterval(function(){
-    View.Tabs.check();
-  }, 300 * 1000);
+  function autoreload(){
+    window.setTimeout(function(){
+      View.Tabs.check();
+      autoreload();
+    }, 300 * 1000);
+  }
 
   var update_rate_limit = function(){
     $.ajax({
@@ -25,9 +32,9 @@ $(function(){
     });
   }
   update_rate_limit();
-  window.setInterval(function(){
-    update_rate_limit();
-  }, 120 * 1000);
+  //window.setInterval(function(){
+  //  update_rate_limit();
+  //}, 137 * 1000);
 
   if(Sound.isDummy){
     $('#volume-slider').hide();

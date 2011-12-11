@@ -83,3 +83,9 @@ Timeline.prototype.attach = function(stream) {
   View.TransStatus.add("attaching "+stream.label + " to "+this.label, d);
   return d;
 }
+
+Timeline.prototype.dry_load = function(){
+  this.streams.forEach(function(st){
+    st.dry_load();
+  });
+}

@@ -171,6 +171,9 @@ TweetsBunch.prototype = {
 
 Event.trap('timeline.tweets.fetched', function(ev){
   var tl = ev.data;
+  if(TweetsBunch.current == tl.bunch()){
+    TweetsBunch.activate();
+  }
   tl.bunch().checkUnread();
 });
 

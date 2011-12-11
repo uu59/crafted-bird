@@ -27,6 +27,8 @@ get "/streams/:id" do
   @timeline = st.fetch
   @streams = [st]
   @label = st.label
+  @id = st.id
+  @type = "stream"
   headers(
     "X-Max-Id" => @timeline.map{|tl| tl.id.to_i.abs}.max.to_s,
     "X-New-Tweets-Count" => @timeline.find_all{|tw| tw.id > params[:max_id].to_i}.length.to_s,

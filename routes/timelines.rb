@@ -112,6 +112,8 @@ get "/timelines/:id" do
   @streams = tl.streams
   @timeline = tl.fetch(:force => (params[:force] == "true"))
   @label = tl.label
+  @id = tl.id
+  @type = "timeline"
   headers(
     "X-Max-Id" => @timeline.map(&:id).max.to_s
   )
