@@ -97,14 +97,9 @@ View.Post = (function(){
   Event.trap('post.after', function(ev){
     var user = ev.data;
     setTimeout(function(){
-      $.each(View.Tabs.Streams.getModels(), function(i, stream){
+      $.each(View.Tabs.streams, function(id, stream){
         if(stream.label.indexOf(user+'-home_timeline') > -1){
-          stream.dry_load().done(function(){
-            var bunch = stream.bunch();
-            if(TweetsBunch.current == bunch){
-              bunch.activate();
-            }
-          });
+          stream.dry_load();
         }
       });
     }, 3000);

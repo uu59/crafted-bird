@@ -1,7 +1,10 @@
 $(function(){
   window.addEventListener('beforeunload', function(e){
     try {
-      TweetsBunch.current.finalizer();
+      var activeTab = $('#tabs .active')[0];
+      if(activeTab.tab){
+        activeTab.tab.deactivate();
+      }
     }catch(e){}
   }, false);
 

@@ -1,23 +1,7 @@
 View.Tweets = (function(){
-
-  // Fire when Stream fetched new tweet by Timelines#fetch
-  Event.trap('timeline.tweets.fetched', function(ev){
-    var tl = ev.data;
-    var bunch = tl.bunch();
-    var elm = $(tl.element());
-
-    if(TweetsBunch.current == bunch){
-      bunch.activate();
-    }else{
-      $(tl.element()).addClass('updated');
-    }
-  });
-
   // fire when Stream fetch new tweet by Stream#fetch
   Event.trap('stream.tweets.fetched', function(ev){
     var stream = ev.data;
-    var elm = $(stream.element());
-    elm.addClass('updated');
     $.each(stream.timelines, function(i, tl){
       tl.setMaxId(stream.max_id);
     });

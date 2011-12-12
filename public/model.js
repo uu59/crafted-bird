@@ -28,10 +28,6 @@ Model.prototype.fetch = function(args){
   return ajax;
 }
 
-Model.prototype.bunch = function(){
-  return new TweetsBunch(this);
-}
-
 Model.prototype.setMaxId = function(id){
   if(compare_big_number_string(id, this.max_id) == 1){
     this.max_id = id;

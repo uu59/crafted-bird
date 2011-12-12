@@ -29,6 +29,7 @@ View.Tabs = (function(){
       models = [];
       streams.forEach(function(stream){
         var st = new Stream(stream.id);
+        st.tab = new Tab(st);
         st.label = stream.label;
         st.setMaxId(stream.max_id);
         models.push(st);
@@ -36,8 +37,7 @@ View.Tabs = (function(){
 
       $('#tabs #streams').html("");
       models.forEach(function(model){
-        var bunch = new TweetsBunch(model);
-        $('#tabs ol#streams').append(bunch.element());
+        $('#tabs ol#streams').append(model.tab.element());
       });
     });
     $('#tabs #streams').html(View.loadingIcon(d));
@@ -55,6 +55,7 @@ View.Tabs = (function(){
       }
       tls.forEach(function(timeline){
         var tl = new Timeline(timeline.id);
+        tl.tab = new Tab(tl);
         tl.label = timeline.label;
         tl.setMaxId(Data.get(tl.wrapDataPrefix("maxid")) || 1);
         tl.streams = [];
@@ -71,8 +72,7 @@ View.Tabs = (function(){
 
       $('#tabs #timelines').html('');
       models.forEach(function(model){
-        var bunch = new TweetsBunch(model);
-        $('#tabs #timelines').append(bunch.element());
+        $('#tabs #timelines').append(model.tab.element());
       });
     });
     $('#tabs #timelines').html(View.loadingIcon(d));
@@ -80,29 +80,15 @@ View.Tabs = (function(){
   }
 
   return {
-    init: function(){
-      var unreadStreams = {}, unreadTimelines = {};
-      $('#tabs #streams li.updated').each(function(i, li){
-        var id = $(li).attr('data-id');
-        unreadStreams[id] = true;
-      });
-      $('#tabs #timelines li.updated').each(function(i, li){
-        var id = $(li).attr('data-id');
-        unreadTimelines[id] = true;
-      });
+    streams: Stream.instances,
+    timelines: Timeline.instances,
 
+    init: function(){
       return $.when(
         loadStreams(),
         loadTimelines()
       ).done(function(){
         init();
-        $.each(unreadStreams, function(id, _){
-          $('#tabs #streams *[data-id="'+id+'"]').addClass('updated');
-          (new TweetsBunch(id)).checkUnread();
-        });
-        $.each(unreadTimelines, function(id, _){
-          $('#tabs #timelines *[data-id="'+id+'"]').addClass('updated');
-        });
       });
     },
 
@@ -117,7 +103,7 @@ View.Tabs = (function(){
           nextjob();
         });
       }
-      $.each(View.Tabs.Timelines.getModels(), function(i, tl){
+      $.each(View.Tabs.timelines, function(i, tl){
         $.each(tl.streams, function(i, st){
           streams.push(st);
           streams = $.unique(streams);

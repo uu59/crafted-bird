@@ -33,7 +33,7 @@ var View = (function(){
       return;
     }
     var force = (origEv.type == "dblclick" || origEv.shiftKey);
-    var d = model.bunch().activate();
+    var d = model.tab.activate();
     View.TransStatus.add('loading '+model.url('fetch'), d);
   });
 
