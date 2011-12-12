@@ -109,8 +109,8 @@ function Tab(model){
           to = tw.position().top - pad;
         }
         $('#main').html(html).promise().done(function(){
+          var pad = ($('#tweets').offset() || {top: 0}).top;
           if(self != current){
-            var pad = ($('#tweets').offset() || {top: 0}).top;
             var offset = $('#tweets > *[data-id="'+self.bookmark +'"], #tweets > *[data-id="'+self.alreadyRead+'"]').offset();
             if(offset){
               to = offset.top - pad;
@@ -118,7 +118,8 @@ function Tab(model){
               to = $('#tweets').height();
             }
           }
-          $('#tweets-line').height(to);
+          $('#tweets-line').height(($('#tweets > *[data-id="'+self.bookmark+'"]').offset() || {top:0}).top - pad);
+          $('#tweets-line-unread').height(($('#tweets > *[data-id="'+self.alreadyRead+'"]').offset() || {top:0}).top - pad);
           window.scroll(0, to);
           current = self;
         });

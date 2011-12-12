@@ -48,6 +48,14 @@ body {
   padding-left: 2em;
   overflow: hidden;
 }
+#tweets-line-unread {
+  position: absolute;
+  height:0;
+  width:6px;
+  left:6px;
+  z-index: 2;
+  background: #dd2;
+}
 #tweets-line {
   position: absolute;
   height:0;
